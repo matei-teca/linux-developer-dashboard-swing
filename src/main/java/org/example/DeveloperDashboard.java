@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class DeveloperDashboard extends JFrame {
+	public DeveloperDashboard() {
+		getContentPane().setBackground(new Color(0, 252, 255));
+	}
     private JLabel welcomeLabel;
     private JTextArea terminalTextArea;
     private JScrollPane terminalScrollPane;
@@ -33,8 +37,11 @@ public class DeveloperDashboard extends JFrame {
 
         // Create terminal text area
         terminalTextArea = new JTextArea();
-        terminalTextArea.setEditable(false);
+        terminalTextArea.setBackground(Color.darkGray);
+        terminalTextArea.setForeground(Color.white); // Set text color to white
         terminalTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        terminalTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
+        terminalTextArea.setEditable(false);
         terminalScrollPane = new JScrollPane(terminalTextArea);
 
         // Create panel to hold command input field and execute button
