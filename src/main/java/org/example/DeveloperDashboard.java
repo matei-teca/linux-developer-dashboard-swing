@@ -1,8 +1,11 @@
+package org.example;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -74,11 +77,18 @@ public class DeveloperDashboard extends JFrame {
         return "Welcome! Current Date and Time: " + java.time.LocalDateTime.now();
     }
 
+    // Maintain the current directory
+    private File currentDirectory = new File(System.getProperty("user.home"));
+
     // Method to execute command and display output in terminal
     private void executeCommand(String command) {
         terminalTextArea.append("$ " + command + "\n");
         try {
-            Process process = Runtime.getRuntime().exec(command);
+            ProcessBuilder processBuilder = new ProcessBuilder();
+            processBuilder.command("bash", "-c", "cd " + currentDirectory.getAbsolutePath() + " && " + command);
+            processBuilder.directory(currentDirectory);
+            Process process = processBuilder.start();
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
@@ -86,6 +96,18 @@ public class DeveloperDashboard extends JFrame {
             }
             reader.close();
             process.waitFor();
+
+            // Update current directory if command was cd
+            if (command.startsWith("cd ")) {
+                String[] parts = command.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+                String directoryPath = parts[1];
+                File newDirectory = new File(currentDirectory, directoryPath);
+                if (newDirectory.isDirectory()) {
+                    currentDirectory = newDirectory.getCanonicalFile();
+                } else {
+                    terminalTextArea.append("Invalid directory: " + directoryPath + "\n");
+                }
+            }
         } catch (IOException | InterruptedException ex) {
             terminalTextArea.append("Error executing command: " + ex.getMessage() + "\n");
         }
