@@ -53,9 +53,13 @@ public class DeveloperDashboard extends JFrame {
         terminalTextArea.setEditable(false);
         terminalScrollPane = new JScrollPane(terminalTextArea);
 
+        // Initialize terminal area with current directory path
+        terminalTextArea.append("$ welcome to terminal widget, type a command such as ls" + "\n\n");
+        terminalTextArea.append(currentDirectory.getAbsolutePath() + " $ ");
+
         // Create panel to hold command input field and execute button
         JPanel inputPanel = new JPanel();
-        commandInputField = new JTextField(30);
+        JTextField commandInputField = new JTextField(30);
         JButton executeButton = new JButton("Execute");
         executeButton.addActionListener(new ActionListener() {
             @Override
@@ -76,30 +80,14 @@ public class DeveloperDashboard extends JFrame {
         getContentPane().add(terminalScrollPane, BorderLayout.CENTER);
         getContentPane().add(inputPanel, BorderLayout.SOUTH);
 
-        // Initialize highlighter
-        highlighter = terminalTextArea.getHighlighter();
-
-        // KeyListener for searching text
-        commandInputField.addKeyListener(new KeyListener() {
+        // Update time every second
+        Timer timer = new Timer(1000, new ActionListener() {
             @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
-                    // Open search dialog
-                    String searchText = JOptionPane.showInputDialog(null, "Search Text:");
-                    if (searchText != null && !searchText.isEmpty()) {
-                        searchInTerminal(searchText);
-                    }
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
+            public void actionPerformed(ActionEvent e) {
+                welcomeLabel.setText(getWelcomeMessage());
             }
         });
+        timer.start();
 
         // Add KeyListener to terminalTextArea to undo search on Escape key press
         terminalTextArea.addKeyListener(new KeyAdapter() {
@@ -115,17 +103,9 @@ public class DeveloperDashboard extends JFrame {
             }
         });
 
-        // Update time every second
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                welcomeLabel.setText(getWelcomeMessage());
-            }
-        });
-        timer.start();
-
         setVisible(true); // Make the frame visible
     }
+
 
     // Method to generate welcome message with current date and time
     private String getWelcomeMessage() {
@@ -137,7 +117,8 @@ public class DeveloperDashboard extends JFrame {
 
     // Method to execute command and display output in terminal
     private void executeCommand(String userCommand) {
-        terminalTextArea.append("$ " + userCommand + "\n");
+        String commandLine = userCommand + "\n";
+        terminalTextArea.append(commandLine);
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
             processBuilder.command("bash", "-c", "cd " + currentDirectory.getAbsolutePath() + " && " + userCommand);
@@ -192,7 +173,10 @@ public class DeveloperDashboard extends JFrame {
         } catch (IOException | InterruptedException ex) {
             terminalTextArea.append("Error executing command: " + ex.getMessage() + "\n");
         }
+        // Append an empty line after output and before the last path line
+        terminalTextArea.append("\n" + currentDirectory.getAbsolutePath() + " $ ");
     }
+
 
     // Method to search text in the terminal
     private void searchInTerminal(String searchText) {
