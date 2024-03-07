@@ -1,14 +1,15 @@
-package org.example;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class DeveloperDashboard extends JFrame {
     private JLabel welcomeLabel;
+    private JTextArea terminalTextArea;
+    private JScrollPane terminalScrollPane;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -27,9 +28,34 @@ public class DeveloperDashboard extends JFrame {
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
         welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Add label to content pane
+        // Create terminal text area
+        terminalTextArea = new JTextArea();
+        terminalTextArea.setEditable(false);
+        terminalTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        terminalScrollPane = new JScrollPane(terminalTextArea);
+
+        // Create panel to hold command input field and execute button
+        JPanel inputPanel = new JPanel();
+        JTextField commandInputField = new JTextField(30);
+        JButton executeButton = new JButton("Execute");
+        executeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = commandInputField.getText().trim();
+                if (!command.isEmpty()) {
+                    executeCommand(command);
+                    commandInputField.setText("");
+                }
+            }
+        });
+        inputPanel.add(commandInputField);
+        inputPanel.add(executeButton);
+
+        // Add components to content pane
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(welcomeLabel, BorderLayout.CENTER);
+        getContentPane().add(welcomeLabel, BorderLayout.NORTH);
+        getContentPane().add(terminalScrollPane, BorderLayout.CENTER);
+        getContentPane().add(inputPanel, BorderLayout.SOUTH);
 
         // Update time every second
         Timer timer = new Timer(1000, new ActionListener() {
@@ -45,8 +71,23 @@ public class DeveloperDashboard extends JFrame {
 
     // Method to generate welcome message with current date and time
     private String getWelcomeMessage() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        return "Welcome! Current Date and Time: " + now.format(formatter);
+        return "Welcome! Current Date and Time: " + java.time.LocalDateTime.now();
+    }
+
+    // Method to execute command and display output in terminal
+    private void executeCommand(String command) {
+        terminalTextArea.append("$ " + command + "\n");
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                terminalTextArea.append(line + "\n");
+            }
+            reader.close();
+            process.waitFor();
+        } catch (IOException | InterruptedException ex) {
+            terminalTextArea.append("Error executing command: " + ex.getMessage() + "\n");
+        }
     }
 }
