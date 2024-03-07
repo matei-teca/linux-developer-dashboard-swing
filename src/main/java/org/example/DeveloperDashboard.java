@@ -107,9 +107,30 @@ public class DeveloperDashboard extends JFrame {
                 } else {
                     terminalTextArea.append("Invalid directory: " + directoryPath + "\n");
                 }
+            } else if (command.startsWith("open ")) { // Open command for macOS
+                String[] parts = command.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+                String filePath = parts[1];
+                File fileToOpen = new File(currentDirectory, filePath);
+                if (fileToOpen.isFile()) {
+                    Process openProcess = Runtime.getRuntime().exec(new String[]{"open", fileToOpen.getAbsolutePath()});
+                    openProcess.waitFor();
+                } else {
+                    terminalTextArea.append("Invalid file: " + filePath + "\n");
+                }
+            } else if (command.startsWith("xdg-open ")) { // Open command for Linux
+                String[] parts = command.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+                String filePath = parts[1];
+                File fileToOpen = new File(currentDirectory, filePath);
+                if (fileToOpen.isFile()) {
+                    Process openProcess = Runtime.getRuntime().exec(new String[]{"xdg-open", fileToOpen.getAbsolutePath()});
+                    openProcess.waitFor();
+                } else {
+                    terminalTextArea.append("Invalid file: " + filePath + "\n");
+                }
             }
         } catch (IOException | InterruptedException ex) {
             terminalTextArea.append("Error executing command: " + ex.getMessage() + "\n");
         }
     }
+
 }
