@@ -11,13 +11,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class DeveloperDashboard extends JFrame {
+
+    // used Window Builder
 	public DeveloperDashboard() {
 		getContentPane().setBackground(new Color(0, 252, 255));
 	}
+
     private JLabel welcomeLabel;
     private JTextArea terminalTextArea;
     private JScrollPane terminalScrollPane;
 
+    // checked ok practice
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new DeveloperDashboard().initializeUI();
@@ -32,7 +36,7 @@ public class DeveloperDashboard extends JFrame {
 
         // Create and customize welcome label
         welcomeLabel = new JLabel();
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
         welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Create terminal text area
@@ -51,9 +55,9 @@ public class DeveloperDashboard extends JFrame {
         executeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String command = commandInputField.getText().trim();
-                if (!command.isEmpty()) {
-                    executeCommand(command);
+                String userCommand = commandInputField.getText().trim();
+                if (!userCommand.isEmpty()) {
+                    executeCommand(userCommand);
                     commandInputField.setText("");
                 }
             }
@@ -88,11 +92,11 @@ public class DeveloperDashboard extends JFrame {
     private File currentDirectory = new File(System.getProperty("user.home"));
 
     // Method to execute command and display output in terminal
-    private void executeCommand(String command) {
-        terminalTextArea.append("$ " + command + "\n");
+    private void executeCommand(String userCommand) {
+        terminalTextArea.append("$ " + userCommand + "\n");
         try {
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("bash", "-c", "cd " + currentDirectory.getAbsolutePath() + " && " + command);
+            processBuilder.command("bash", "-c", "cd " + currentDirectory.getAbsolutePath() + " && " + userCommand);
             processBuilder.directory(currentDirectory);
             Process process = processBuilder.start();
 
@@ -104,9 +108,9 @@ public class DeveloperDashboard extends JFrame {
             reader.close();
             process.waitFor();
 
-            // Update current directory if command was cd
-            if (command.startsWith("cd ")) {
-                String[] parts = command.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+            // cd command
+            if (userCommand.startsWith("cd ")) {
+                String[] parts = userCommand.split("\\s+", 2); // Split by whitespace, limit to 2 parts
                 String directoryPath = parts[1];
                 File newDirectory = new File(currentDirectory, directoryPath);
                 if (newDirectory.isDirectory()) {
@@ -114,8 +118,11 @@ public class DeveloperDashboard extends JFrame {
                 } else {
                     terminalTextArea.append("Invalid directory: " + directoryPath + "\n");
                 }
-            } else if (command.startsWith("open ")) { // Open command for macOS
-                String[] parts = command.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+            }
+
+            // open command for macOS
+            else if (userCommand.startsWith("open ")) {
+                String[] parts = userCommand.split("\\s+", 2); // Split by whitespace, limit to 2 parts
                 String filePath = parts[1];
                 File fileToOpen = new File(currentDirectory, filePath);
                 if (fileToOpen.isFile()) {
@@ -124,8 +131,11 @@ public class DeveloperDashboard extends JFrame {
                 } else {
                     terminalTextArea.append("Invalid file: " + filePath + "\n");
                 }
-            } else if (command.startsWith("xdg-open ")) { // Open command for Linux
-                String[] parts = command.split("\\s+", 2); // Split by whitespace, limit to 2 parts
+            }
+
+            // open command for Linux
+            else if (userCommand.startsWith("xdg-open ")) {
+                String[] parts = userCommand.split("\\s+", 2); // Split by whitespace, limit to 2 parts
                 String filePath = parts[1];
                 File fileToOpen = new File(currentDirectory, filePath);
                 if (fileToOpen.isFile()) {
