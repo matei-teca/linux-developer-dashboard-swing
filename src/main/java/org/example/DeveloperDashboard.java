@@ -15,7 +15,7 @@ public class DeveloperDashboard extends JFrame {
 
     // used Window Builder
     public DeveloperDashboard() {
-        getContentPane().setBackground(new Color(0, 252, 255));
+        getContentPane().setBackground(Color.GRAY);
     }
 
     private JLabel welcomeLabel;
@@ -54,13 +54,15 @@ public class DeveloperDashboard extends JFrame {
         terminalScrollPane = new JScrollPane(terminalTextArea);
 
         // Initialize terminal area with current directory path
-        terminalTextArea.append("$ welcome to terminal widget, type a command such as ls" + "\n\n");
+        terminalTextArea.append("$ welcome to the terminal widget, type a command such as ls" + "\n\n");
         terminalTextArea.append(currentDirectory.getAbsolutePath() + " $ ");
 
-        // Create panel to hold command input field and execute button
+        /// Create panel to hold command input field and execute button
         JPanel inputPanel = new JPanel();
-        JTextField commandInputField = new JTextField(40);
+        inputPanel.setBackground(Color.GRAY);
+        JTextField commandInputField = new JTextField(15);
         JButton executeButton = new JButton("Execute");
+
         executeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -148,7 +150,7 @@ public class DeveloperDashboard extends JFrame {
 
     // Method to generate welcome message with current date and time
     private String getWelcomeMessage() {
-        return "<html><div style='padding-top: 5px; padding-bottom: 5px'>" +
+        return "<html><div style='padding-top: 5px; padding-bottom: 5px; color: black'>" +
                 "- welcome - current date and time: " + java.time.LocalDateTime.now() +
                 "</div></html>";
     }
