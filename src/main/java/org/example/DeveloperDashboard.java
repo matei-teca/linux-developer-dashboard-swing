@@ -109,7 +109,9 @@ public class DeveloperDashboard extends JFrame {
 
     // Method to generate welcome message with current date and time
     private String getWelcomeMessage() {
-        return "Welcome! Current Date and Time: " + java.time.LocalDateTime.now();
+        return "<html><div style='padding-top: 5px; padding-bottom: 5px'>" +
+                "- welcome - current date and time: " + java.time.LocalDateTime.now() +
+                "</div></html>";
     }
 
     // Maintain the current directory
@@ -176,7 +178,6 @@ public class DeveloperDashboard extends JFrame {
         // Append an empty line after output and before the last path line
         terminalTextArea.append("\n" + currentDirectory.getAbsolutePath() + " $ ");
     }
-
 
     // Method to search text in the terminal
     private void searchInTerminal(String searchText) {
