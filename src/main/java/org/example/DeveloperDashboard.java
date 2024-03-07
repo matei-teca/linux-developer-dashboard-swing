@@ -59,7 +59,7 @@ public class DeveloperDashboard extends JFrame {
 
         // Create panel to hold command input field and execute button
         JPanel inputPanel = new JPanel();
-        JTextField commandInputField = new JTextField(30);
+        JTextField commandInputField = new JTextField(40);
         JButton executeButton = new JButton("Execute");
         executeButton.addActionListener(new ActionListener() {
             @Override
@@ -71,6 +71,20 @@ public class DeveloperDashboard extends JFrame {
                 }
             }
         });
+        // Add KeyListener to commandInputField to execute command on Enter key press
+        commandInputField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String userCommand = commandInputField.getText().trim();
+                    if (!userCommand.isEmpty()) {
+                        executeCommand(userCommand);
+                        commandInputField.setText("");
+                    }
+                }
+            }
+        });
+
         inputPanel.add(commandInputField);
         inputPanel.add(executeButton);
 
@@ -88,6 +102,31 @@ public class DeveloperDashboard extends JFrame {
             }
         });
         timer.start();
+
+        // Initialize the highlighter
+        highlighter = terminalTextArea.getHighlighter();
+
+        // KeyListener for searching text
+        commandInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                    // Open search dialog
+                    String searchText = JOptionPane.showInputDialog(null, "Search Text:");
+                    if (searchText != null && !searchText.isEmpty()) {
+                        searchInTerminal(searchText);
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
 
         // Add KeyListener to terminalTextArea to undo search on Escape key press
         terminalTextArea.addKeyListener(new KeyAdapter() {
