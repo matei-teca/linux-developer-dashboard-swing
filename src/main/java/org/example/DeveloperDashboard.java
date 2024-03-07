@@ -2,9 +2,10 @@ package org.example;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -13,13 +14,17 @@ import java.io.InputStreamReader;
 public class DeveloperDashboard extends JFrame {
 
     // used Window Builder
-	public DeveloperDashboard() {
-		getContentPane().setBackground(new Color(0, 252, 255));
-	}
+    public DeveloperDashboard() {
+        getContentPane().setBackground(new Color(0, 252, 255));
+    }
 
     private JLabel welcomeLabel;
     private JTextArea terminalTextArea;
     private JScrollPane terminalScrollPane;
+    private JTextField commandInputField;
+
+    // Highlighter for text searching
+    private Highlighter highlighter;
 
     // checked ok practice
     public static void main(String[] args) {
@@ -50,7 +55,7 @@ public class DeveloperDashboard extends JFrame {
 
         // Create panel to hold command input field and execute button
         JPanel inputPanel = new JPanel();
-        JTextField commandInputField = new JTextField(30);
+        commandInputField = new JTextField(30);
         JButton executeButton = new JButton("Execute");
         executeButton.addActionListener(new ActionListener() {
             @Override
@@ -70,6 +75,45 @@ public class DeveloperDashboard extends JFrame {
         getContentPane().add(welcomeLabel, BorderLayout.NORTH);
         getContentPane().add(terminalScrollPane, BorderLayout.CENTER);
         getContentPane().add(inputPanel, BorderLayout.SOUTH);
+
+        // Initialize highlighter
+        highlighter = terminalTextArea.getHighlighter();
+
+        // KeyListener for searching text
+        commandInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyCode() == KeyEvent.VK_F) && ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
+                    // Open search dialog
+                    String searchText = JOptionPane.showInputDialog(null, "Search Text:");
+                    if (searchText != null && !searchText.isEmpty()) {
+                        searchInTerminal(searchText);
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
+        // Add KeyListener to terminalTextArea to undo search on Escape key press
+        terminalTextArea.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    // Remove all highlights
+                    highlighter.removeAllHighlights();
+                    // Reset text color to white
+                    terminalTextArea.setForeground(Color.WHITE);
+                    terminalTextArea.requestFocusInWindow(); // Set focus back to the text area
+                }
+            }
+        });
 
         // Update time every second
         Timer timer = new Timer(1000, new ActionListener() {
@@ -147,6 +191,33 @@ public class DeveloperDashboard extends JFrame {
             }
         } catch (IOException | InterruptedException ex) {
             terminalTextArea.append("Error executing command: " + ex.getMessage() + "\n");
+        }
+    }
+
+    // Method to search text in the terminal
+    private void searchInTerminal(String searchText) {
+        String text = terminalTextArea.getText();
+        String searchTextLowerCase = searchText.toLowerCase();
+        int index = text.toLowerCase().indexOf(searchTextLowerCase);
+        if (index >= 0) {
+            try {
+                // Remove previous highlights
+                highlighter.removeAllHighlights();
+                // Highlight all occurrences of the search text
+                while (index >= 0) {
+                    int endIndex = index + searchText.length();
+                    highlighter.addHighlight(index, endIndex, new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW));
+                    terminalTextArea.getHighlighter().addHighlight(index, endIndex, new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW));
+                    index = text.toLowerCase().indexOf(searchTextLowerCase, endIndex);
+                }
+                // Change text color to black for better visibility
+                terminalTextArea.setForeground(Color.BLACK);
+                terminalTextArea.requestFocusInWindow(); // Set focus back to the text area
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Text not found!");
         }
     }
 
