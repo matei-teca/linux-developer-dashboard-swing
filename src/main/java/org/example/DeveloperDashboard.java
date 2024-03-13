@@ -4,20 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class DeveloperDashboard extends JFrame {
+
+    // Set IntelliJ-like colors
+    Color darkBackground = new Color(43, 43, 43);
+    Color buttonColor = new Color(91, 94, 99);
+    Color buttonHoverColor = new Color(117, 120, 125);
+    Color buttonPressedColor = new Color(75, 78, 82);
+    Color textColor = new Color(214, 215, 216);
+    Color toolbarBorderColor = new Color(60, 63, 65);
+
     public DeveloperDashboard() {
         setTitle("Developer Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(800, 600));
-
-        // Set IntelliJ-like colors
-        Color darkBackground = new Color(43, 43, 43);
-        Color buttonColor = new Color(91, 94, 99);
-        Color buttonHoverColor = new Color(117, 120, 125);
-        Color buttonPressedColor = new Color(75, 78, 82);
-        Color textColor = new Color(214, 215, 216);
-        Color toolbarBorderColor = new Color(60, 63, 65);
 
         UIManager.put("Panel.background", darkBackground);
         UIManager.put("Button.background", buttonColor);
@@ -240,24 +242,67 @@ public class DeveloperDashboard extends JFrame {
 
         // Create toolbar
         JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(false); // Make the toolbar non-movable
-        toolBar.setOpaque(false); // Make the toolbar transparent
+        toolBar.setForeground(new Color(0, 0, 0));
+        toolBar.setBackground(new Color(60, 63, 65));
+        toolBar.setFloatable(false);
         toolBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
         // Add toolbar buttons
-        toolBar.add(new JLabel("Toolbar: ")); // Add label for clarity
+        toolBar.add(new JLabel("Toolbar ")); // Add label for clarity
         // Add toolbar buttons with IntelliJ font
+
         JButton action1 = new JButton("Action 1");
-        action1.setFont(font);
+//        action1.setBackground(buttonColor);
+//        action1.setOpaque(true);
+//        action1.setFont(font);
         JButton action2 = new JButton("Action 2");
-        action2.setFont(font);
+//        action2.setBackground(buttonColor);
+//        action2.setOpaque(true);
+//        action2.setFont(font);
         JButton action3 = new JButton("Action 3");
-        action3.setFont(font);
-        toolBar.add(action1);
-        toolBar.add(action2);
-        toolBar.add(action3);
+//        action3.setBackground(buttonColor);
+//        action3.setOpaque(true);
+//        action3.setFont(font);
+//        toolBar.add(action1);
+//        toolBar.add(action2);
+//        toolBar.add(action3);
+
+        ArrayList<JButton> toolbarButtons = new ArrayList<>();
+        toolbarButtons.add(action1);
+        toolbarButtons.add(action2);
+        toolbarButtons.add(action3);
+
+        for(int i = 0; i < toolbarButtons.size(); i++) {
+
+            JButton currentButton = toolbarButtons.get(i);
+
+            currentButton.setBackground(buttonColor);
+            currentButton.setOpaque(true);
+            currentButton.setFont(font);
+            toolBar.add(currentButton);
+
+            currentButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    currentButton.setBackground(buttonHoverColor);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    currentButton.setBackground(buttonColor);
+                }
+
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    currentButton.setBackground(buttonPressedColor);
+                }
+
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    currentButton.setBackground(buttonHoverColor);
+                }
+            });
+        }
+
 
         // Set layout
         getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(toolBar, BorderLayout.NORTH);
 
         // Create panel to hold buttons with GridLayout
         JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 10, 10));
