@@ -36,7 +36,7 @@ public class TerminalWidget extends JFrame {
         });
     }
 
-    private static boolean isDashboardOpen() {
+    static boolean isDashboardOpen() {
         Frame[] frames = JFrame.getFrames();
         for (Frame frame : frames) {
             if (frame instanceof TerminalWidget) {
@@ -158,6 +158,7 @@ public class TerminalWidget extends JFrame {
         });
 
         setVisible(true); // Make the frame visible
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
 

@@ -2,6 +2,8 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class DeveloperDashboard extends JFrame {
     public DeveloperDashboard() {
@@ -56,6 +58,17 @@ public class DeveloperDashboard extends JFrame {
                 terminalButton.setBackground(buttonHoverColor);
             }
         });
+
+        terminalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Check if an instance of TerminalWidget is already open
+                if (!TerminalWidget.isDashboardOpen()) {
+                    new TerminalWidget().initializeUI();
+                }
+            }
+        });
+
 
         // Apply same settings for other buttons
         resourceButton.setFont(font);
