@@ -33,6 +33,11 @@ public class DeveloperDashboard extends JFrame {
         // Create buttons
         JButton terminalButton = new JButton("Terminal");
         JButton resourceButton = new JButton("Resource Monitoring");
+        resourceButton.setOpaque(true);
+        resourceButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         JButton documentationButton = new JButton("Documentation");
         JButton button4 = new JButton("Button 4");
         JButton button5 = new JButton("Button 5");
