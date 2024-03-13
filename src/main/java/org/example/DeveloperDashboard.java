@@ -62,10 +62,7 @@ public class DeveloperDashboard extends JFrame {
         terminalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Check if an instance of TerminalWidget is already open
-                if (!TerminalWidget.isDashboardOpen()) {
-                    new TerminalWidget().initializeUI();
-                }
+                new TerminalWidget().initializeUI();
             }
         });
 
