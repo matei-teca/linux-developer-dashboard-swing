@@ -15,7 +15,6 @@ public class DeveloperDashboard extends JFrame {
     Color buttonPressedColor = new Color(75, 78, 82);
     Color textColor = new Color(214, 215, 216);
     Color toolbarBorderColor = new Color(60, 63, 65);
-
     Color toolbarBackground = new Color(60, 63, 65);
 
     public DeveloperDashboard() {
@@ -97,9 +96,7 @@ public class DeveloperDashboard extends JFrame {
         // Load the image
         ImageIcon backgroundImage = new ImageIcon("src/main/resources/images/terminal-icon-b.png"); // Adjust the path to your image
         CustomButtonUI.applyCustomUI(terminalButton, backgroundImage.getImage(), buttonHoverColor);
-
-        // Set the background image
-        //        terminalButton.setIcon(backgroundImage);
+        terminalButton.setVerticalTextPosition(SwingConstants.BOTTOM);
 
         resourceButton.setBackground(Color.BLUE);
 
@@ -115,7 +112,8 @@ public class DeveloperDashboard extends JFrame {
         JButton settingsButton = new JButton(settingsIcon);
         settingsButton.setMaximumSize(new Dimension(31, 32));
         settingsButton.setToolTipText("Settings");
-        toolBar.add(settingsButton);
+        // Add filler to create padding
+        Component rigidArea = Box.createRigidArea(new Dimension(20, 0));
 
         JButton action1 = new JButton("Action 1");
         JButton action2 = new JButton("Action 2");
@@ -135,6 +133,9 @@ public class DeveloperDashboard extends JFrame {
             currentButton.setOpaque(true);
             currentButton.setFont(font);
             toolBar.add(currentButton);
+            if(i == 0){
+                toolBar.add(rigidArea);
+            }
 
             currentButton.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -164,7 +165,7 @@ public class DeveloperDashboard extends JFrame {
         buttonPanel.setBackground(darkBackground); // Set background color
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add some padding
 
-// Add buttons with IntelliJ font
+        // Add buttons with IntelliJ font
         buttonPanel.add(documentationButton);
         buttonPanel.add(terminalButton);
         buttonPanel.add(button4);
@@ -177,6 +178,14 @@ public class DeveloperDashboard extends JFrame {
         // Add grid button panel below
         getContentPane().add(buttonPanel, BorderLayout.CENTER);
 
+        // Add label below the Terminal button
+//        JLabel terminalLabel = new JLabel("Terminal");
+//        terminalLabel.setForeground(textColor);
+//        terminalLabel.setHorizontalAlignment(SwingConstants.CENTER);
+//        JPanel terminalLabelPanel = new JPanel(new BorderLayout());
+//        terminalLabelPanel.setOpaque(false); // Make panel transparent
+//        terminalLabelPanel.add(terminalLabel, BorderLayout.SOUTH);
+//        getContentPane().add(terminalLabelPanel, BorderLayout.SOUTH);
 
         pack();
         setLocationRelativeTo(null); // Center the frame
