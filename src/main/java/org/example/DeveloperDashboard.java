@@ -106,6 +106,7 @@ public class DeveloperDashboard extends JFrame {
         Icon settingsIcon = new ImageIcon("src/main/resources/images/Screenshot 2024-03-14 at 19.23.03.png");
 
         JButton settingsButton = new JButton(settingsIcon);
+        settingsButton.setMaximumSize(new Dimension(31, 32));
         settingsButton.setToolTipText("Settings");
         toolBar.add(settingsButton);
 
