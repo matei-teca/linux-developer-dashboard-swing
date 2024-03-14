@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class DeveloperDashboard extends JFrame {
@@ -155,6 +157,28 @@ public class DeveloperDashboard extends JFrame {
                 }
             });
         }
+
+        // Inside DeveloperDashboard class
+        settingsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SettingsWindow settingsWindow = new SettingsWindow();
+                settingsWindow.setVisible(true);
+            }
+        });
+
+        // Inside DeveloperDashboard class
+        settingsButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                settingsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                settingsButton.setCursor(Cursor.getDefaultCursor());
+            }
+        });
 
         // Set layout
         getContentPane().setLayout(new BorderLayout());
