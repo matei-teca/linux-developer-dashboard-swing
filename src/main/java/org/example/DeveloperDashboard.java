@@ -94,6 +94,13 @@ public class DeveloperDashboard extends JFrame {
             }
         });
 
+        // Load the image
+        ImageIcon backgroundImage = new ImageIcon("src/main/resources/images/terminal-icon-b.png"); // Adjust the path to your image
+        CustomButtonUI.applyCustomUI(terminalButton, backgroundImage.getImage(), buttonHoverColor);
+
+        // Set the background image
+        //        terminalButton.setIcon(backgroundImage);
+
         resourceButton.setBackground(Color.BLUE);
 
         // Create toolbar
