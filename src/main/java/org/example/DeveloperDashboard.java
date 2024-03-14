@@ -102,15 +102,19 @@ public class DeveloperDashboard extends JFrame {
         toolBar.setBackground(toolbarBackground);
         toolBar.setFloatable(false);
         toolBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
-        // Add toolbar buttons
-        toolBar.add(new JLabel("Toolbar ")); // Add label for clarity
-        // Add toolbar buttons with IntelliJ font
+
+        Icon settingsIcon = new ImageIcon("src/main/resources/images/Screenshot 2024-03-14 at 19.23.03.png");
+
+        JButton settingsButton = new JButton(settingsIcon);
+        settingsButton.setToolTipText("Settings");
+        toolBar.add(settingsButton);
 
         JButton action1 = new JButton("Action 1");
         JButton action2 = new JButton("Action 2");
         JButton action3 = new JButton("Action 3");
 
         ArrayList<JButton> toolbarButtons = new ArrayList<>();
+        toolbarButtons.add(settingsButton);
         toolbarButtons.add(action1);
         toolbarButtons.add(action2);
         toolbarButtons.add(action3);
@@ -142,7 +146,6 @@ public class DeveloperDashboard extends JFrame {
                 }
             });
         }
-
 
         // Set layout
         getContentPane().setLayout(new BorderLayout());
