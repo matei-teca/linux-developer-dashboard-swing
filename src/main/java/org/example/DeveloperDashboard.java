@@ -16,6 +16,8 @@ public class DeveloperDashboard extends JFrame {
     Color textColor = new Color(214, 215, 216);
     Color toolbarBorderColor = new Color(60, 63, 65);
 
+    Color toolbarBackground = new Color(60, 63, 65);
+
     public DeveloperDashboard() {
         setTitle("Developer Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,11 +37,6 @@ public class DeveloperDashboard extends JFrame {
         // Create buttons
         JButton terminalButton = new JButton("Terminal");
         JButton resourceButton = new JButton("Resource Monitoring");
-        resourceButton.setOpaque(true);
-        resourceButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        	}
-        });
         JButton documentationButton = new JButton("Documentation");
         JButton button4 = new JButton("Button 4");
         JButton button5 = new JButton("Button 5");
@@ -47,29 +44,48 @@ public class DeveloperDashboard extends JFrame {
         JButton button7 = new JButton("Button 7");
         JButton button8 = new JButton("Button 8");
 
-        // Apply IntelliJ font and button effects
-        terminalButton.setFont(font);
-        terminalButton.setFocusPainted(false);
-        terminalButton.setBackground(buttonColor);
-        terminalButton.setForeground(textColor);
-        terminalButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        terminalButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                terminalButton.setBackground(buttonHoverColor);
-            }
+        ArrayList<JButton> mainButtons = new ArrayList<>();
+        mainButtons.add(terminalButton);
+        mainButtons.add(resourceButton);
+        mainButtons.add(documentationButton);
+        mainButtons.add(button4);
+        mainButtons.add(button5);
+        mainButtons.add(button6);
+        mainButtons.add(button7);
+        mainButtons.add(button8);
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                terminalButton.setBackground(buttonColor);
-            }
+        for(int i = 0; i < mainButtons.size(); i++){
 
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                terminalButton.setBackground(buttonPressedColor);
-            }
+            JButton currentBttn = mainButtons.get(i);
+            currentBttn.setOpaque(true);
+            currentBttn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                }
+            });
 
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                terminalButton.setBackground(buttonHoverColor);
-            }
-        });
+            currentBttn.setFont(font);
+            currentBttn.setBackground(darkBackground);
+            currentBttn.setForeground(textColor);
+            currentBttn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            currentBttn.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    currentBttn.setBackground(buttonHoverColor);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    currentBttn.setBackground(darkBackground);
+                }
+
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    currentBttn.setBackground(buttonPressedColor);
+                }
+
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    currentBttn.setBackground(buttonHoverColor);
+                }
+            });
+
+        }
 
         terminalButton.addActionListener(new ActionListener() {
             @Override
@@ -78,172 +94,12 @@ public class DeveloperDashboard extends JFrame {
             }
         });
 
-        resourceButton.setFont(font);
-        resourceButton.setFocusPainted(false);
         resourceButton.setBackground(Color.BLUE);
-        resourceButton.setForeground(textColor);
-        resourceButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        resourceButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                resourceButton.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                resourceButton.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                resourceButton.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                resourceButton.setBackground(buttonHoverColor);
-            }
-        });
-
-        // Apply same settings for other buttons
-        documentationButton.setFont(font);
-        documentationButton.setFocusPainted(false);
-        documentationButton.setBackground(buttonColor);
-        documentationButton.setForeground(textColor);
-        documentationButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        documentationButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                documentationButton.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                documentationButton.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                documentationButton.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                documentationButton.setBackground(buttonHoverColor);
-            }
-        });
-
-        button4.setFont(font);
-        button4.setFocusPainted(false);
-        button4.setBackground(buttonColor);
-        button4.setForeground(textColor);
-        button4.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        button4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button4.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button4.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                button4.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                button4.setBackground(buttonHoverColor);
-            }
-        });
-
-        button5.setFont(font);
-        button5.setFocusPainted(false);
-        button5.setBackground(buttonColor);
-        button5.setForeground(textColor);
-        button5.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        button5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button5.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button5.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                button5.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                button5.setBackground(buttonHoverColor);
-            }
-        });
-
-        button6.setFont(font);
-        button6.setFocusPainted(false);
-        button6.setBackground(buttonColor);
-        button6.setForeground(textColor);
-        button6.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        button6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button6.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button6.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                button6.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                button6.setBackground(buttonHoverColor);
-            }
-        });
-
-        button7.setFont(font);
-        button7.setFocusPainted(false);
-        button7.setBackground(buttonColor);
-        button7.setForeground(textColor);
-        button7.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        button7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button7.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button7.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                button7.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                button7.setBackground(buttonHoverColor);
-            }
-        });
-
-        button8.setFont(font);
-        button8.setFocusPainted(false);
-        button8.setBackground(buttonColor);
-        button8.setForeground(textColor);
-        button8.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        button8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button8.setBackground(buttonHoverColor);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button8.setBackground(buttonColor);
-            }
-
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                button8.setBackground(buttonPressedColor);
-            }
-
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                button8.setBackground(buttonHoverColor);
-            }
-        });
 
         // Create toolbar
         JToolBar toolBar = new JToolBar();
         toolBar.setForeground(new Color(0, 0, 0));
-        toolBar.setBackground(new Color(60, 63, 65));
+        toolBar.setBackground(toolbarBackground);
         toolBar.setFloatable(false);
         toolBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
         // Add toolbar buttons
@@ -251,20 +107,8 @@ public class DeveloperDashboard extends JFrame {
         // Add toolbar buttons with IntelliJ font
 
         JButton action1 = new JButton("Action 1");
-//        action1.setBackground(buttonColor);
-//        action1.setOpaque(true);
-//        action1.setFont(font);
         JButton action2 = new JButton("Action 2");
-//        action2.setBackground(buttonColor);
-//        action2.setOpaque(true);
-//        action2.setFont(font);
         JButton action3 = new JButton("Action 3");
-//        action3.setBackground(buttonColor);
-//        action3.setOpaque(true);
-//        action3.setFont(font);
-//        toolBar.add(action1);
-//        toolBar.add(action2);
-//        toolBar.add(action3);
 
         ArrayList<JButton> toolbarButtons = new ArrayList<>();
         toolbarButtons.add(action1);
@@ -275,7 +119,7 @@ public class DeveloperDashboard extends JFrame {
 
             JButton currentButton = toolbarButtons.get(i);
 
-            currentButton.setBackground(buttonColor);
+            currentButton.setBackground(toolbarBackground);
             currentButton.setOpaque(true);
             currentButton.setFont(font);
             toolBar.add(currentButton);
@@ -286,7 +130,7 @@ public class DeveloperDashboard extends JFrame {
                 }
 
                 public void mouseExited(java.awt.event.MouseEvent evt) {
-                    currentButton.setBackground(buttonColor);
+                    currentButton.setBackground(toolbarBackground);
                 }
 
                 public void mousePressed(java.awt.event.MouseEvent evt) {
