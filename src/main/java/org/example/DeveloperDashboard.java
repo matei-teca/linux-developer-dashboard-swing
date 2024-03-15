@@ -162,7 +162,7 @@ public class DeveloperDashboard extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SettingsWindow settingsWindow = new SettingsWindow();
+                SettingsWindow settingsWindow = new SettingsWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, font);
                 settingsWindow.setVisible(true);
             }
         });
