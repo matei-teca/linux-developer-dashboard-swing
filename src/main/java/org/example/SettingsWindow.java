@@ -8,7 +8,10 @@ import java.util.ArrayList;
 
 public class SettingsWindow extends JFrame {
 
-    public SettingsWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font font) {
+    public SettingsWindow() throws HeadlessException {
+    }
+
+    public SettingsWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font globalFont) {
         setTitle("Settings");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));
@@ -40,7 +43,7 @@ public class SettingsWindow extends JFrame {
                 }
             });
 
-            currentBttn.setFont(font);
+            currentBttn.setFont(globalFont);
             currentBttn.setBackground(darkBackground);
             currentBttn.setForeground(textColor);
             currentBttn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -70,13 +73,42 @@ public class SettingsWindow extends JFrame {
         accessibilitySettingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AccessibilitySettingsWindow settingsWindow = new AccessibilitySettingsWindow();
+                AccessibilitySettingsWindow settingsWindow = new AccessibilitySettingsWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
                 settingsWindow.setVisible(true);
             }
         });
 
         pack();
         setLocationRelativeTo(null); // Center the window
+    }
+
+    public void changeTextSize(int newSize) {
+        Font globalFont = DeveloperDashboard.getGlobalFont();
+        Font newFont = globalFont.deriveFont(Font.PLAIN, newSize);
+        DeveloperDashboard.setGlobalFont(newFont);
+
+        // Update UI for already displayed components
+        for (Window window : Window.getWindows()) {
+            SwingUtilities.updateComponentTreeUI(window);
+            window.repaint();
+            recursivelyRepaintComponents(window, newFont);
+        }
+    }
+
+    private void recursivelyRepaintComponents(Component component, Font font) {
+        if (component instanceof JComponent) {
+            JComponent jComponent = (JComponent) component;
+            jComponent.setFont(font);
+            jComponent.repaint();
+        }
+
+        if (component instanceof Container) {
+            Container container = (Container) component;
+            Component[] components = container.getComponents();
+            for (Component child : components) {
+                recursivelyRepaintComponents(child, font);
+            }
+        }
     }
 
 }

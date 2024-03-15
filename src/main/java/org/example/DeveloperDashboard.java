@@ -19,6 +19,16 @@ public class DeveloperDashboard extends JFrame {
     Color toolbarBorderColor = new Color(60, 63, 65);
     Color toolbarBackground = new Color(60, 63, 65);
 
+    private static Font globalFont = new Font("Arial", Font.PLAIN, 16);
+    public static Font getGlobalFont() {
+        return globalFont;
+    }
+
+    public static void setGlobalFont(Font globalFont) {
+        DeveloperDashboard.globalFont = globalFont;
+    }
+
+
     public DeveloperDashboard() {
         setTitle("Developer Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,9 +41,6 @@ public class DeveloperDashboard extends JFrame {
         UIManager.put("Label.foreground", textColor);
         UIManager.put("ToolBar.background", darkBackground);
         UIManager.put("ToolBar.border", BorderFactory.createMatteBorder(0, 0, 1, 0, toolbarBorderColor));
-
-        // Apply IntelliJ font
-        Font font = new Font("JetBrains Mono", Font.PLAIN, 14);
 
         // Create buttons
         JButton terminalButton = new JButton("Terminal");
@@ -64,7 +71,7 @@ public class DeveloperDashboard extends JFrame {
                 }
             });
 
-            currentBttn.setFont(font);
+            currentBttn.setFont(globalFont);
             currentBttn.setBackground(darkBackground);
             currentBttn.setForeground(textColor);
             currentBttn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -133,7 +140,7 @@ public class DeveloperDashboard extends JFrame {
 
             currentButton.setBackground(toolbarBackground);
             currentButton.setOpaque(true);
-            currentButton.setFont(font);
+            currentButton.setFont(globalFont);
             toolBar.add(currentButton);
             if(i == 0){
                 toolBar.add(rigidArea);
@@ -162,7 +169,7 @@ public class DeveloperDashboard extends JFrame {
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SettingsWindow settingsWindow = new SettingsWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, font);
+                SettingsWindow settingsWindow = new SettingsWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
                 settingsWindow.setVisible(true);
             }
         });
@@ -189,7 +196,7 @@ public class DeveloperDashboard extends JFrame {
         buttonPanel.setBackground(darkBackground); // Set background color
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add some padding
 
-        // Add buttons with IntelliJ font
+        // Add buttons with IntelliJ globalFont
         buttonPanel.add(documentationButton);
         buttonPanel.add(terminalButton);
         buttonPanel.add(button4);
