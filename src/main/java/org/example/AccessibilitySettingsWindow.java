@@ -62,13 +62,20 @@ public class AccessibilitySettingsWindow extends JFrame {
         }
 
         button1.addActionListener(new ActionListener() {
+            Font increasedFont = new Font("Arial", Font.PLAIN, 20);
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Create a spinner for input
-                JSpinner spinner = new JSpinner(new SpinnerNumberModel(16, 6, 72, 1));
+                // Create a spinner for input with default font size 20
+                SpinnerNumberModel spinnerModel = new SpinnerNumberModel(20, 6, 72, 1);
+                JSpinner spinner = new JSpinner(spinnerModel);
+                JComponent editor = spinner.getEditor();
+                if (editor instanceof JSpinner.DefaultEditor) {
+                    ((JSpinner.DefaultEditor) editor).getTextField().setFont(increasedFont);
+                }
 
                 // Create a custom OK button
                 JButton okButton = new JButton("OK");
+                okButton.setFont(increasedFont);
                 okButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -79,11 +86,13 @@ public class AccessibilitySettingsWindow extends JFrame {
 
                 // Create a reset button
                 JButton resetButton = new JButton("Reset");
+                resetButton.setFont(increasedFont);
                 resetButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // Reset the font size to default value
                         new SettingsWindow().changeTextSize(16);
+                        spinner.setValue(16);
                     }
                 });
 
