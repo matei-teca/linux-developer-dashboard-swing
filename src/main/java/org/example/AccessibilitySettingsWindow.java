@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class AccessibilitySettingsWindow extends JFrame {
 
-    public AccessibilitySettingsWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font font) {
+    public AccessibilitySettingsWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font globalFont) {
         setTitle("Accessibility Settings");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));
@@ -37,7 +37,7 @@ public class AccessibilitySettingsWindow extends JFrame {
                 }
             });
 
-            currentBttn.setFont(font);
+            currentBttn.setFont(globalFont);
             currentBttn.setBackground(darkBackground);
             currentBttn.setForeground(textColor);
             currentBttn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
@@ -65,7 +65,7 @@ public class AccessibilitySettingsWindow extends JFrame {
             Font increasedFont = new Font("Arial", Font.PLAIN, 20);
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Create a spinner for input with default font size 20
+                // Create a spinner for input with default globalFont size 20
                 SpinnerNumberModel spinnerModel = new SpinnerNumberModel(20, 6, 72, 1);
                 JSpinner spinner = new JSpinner(spinnerModel);
                 JComponent editor = spinner.getEditor();
@@ -90,7 +90,7 @@ public class AccessibilitySettingsWindow extends JFrame {
                 resetButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        // Reset the font size to default value
+                        // Reset the globalFont size to default value
                         new SettingsWindow().changeTextSize(16);
                         spinner.setValue(16);
                     }
@@ -100,7 +100,7 @@ public class AccessibilitySettingsWindow extends JFrame {
                 int option = JOptionPane.showOptionDialog(
                         null,
                         spinner,
-                        "Enter the new font size:",
+                        "Enter the new globalFont size:",
                         JOptionPane.DEFAULT_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
@@ -109,11 +109,15 @@ public class AccessibilitySettingsWindow extends JFrame {
             }
         });
 
-
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement action for Setting 2
+                ScreenReaderWindow settingsWindow = new ScreenReaderWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
+                settingsWindow.setVisible(true);
+
+//                Component parent = AccessibilitySettingsWindow.this;
+//                settingsWindow.setLocationRelativeTo(null);
+//                settingsWindow.setLocation(parent.getX() + 100, parent.getY() -50);
             }
         });
 

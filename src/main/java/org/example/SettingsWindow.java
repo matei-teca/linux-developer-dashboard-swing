@@ -75,6 +75,10 @@ public class SettingsWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 AccessibilitySettingsWindow settingsWindow = new AccessibilitySettingsWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
                 settingsWindow.setVisible(true);
+
+//                Component parent = SettingsWindow.this;
+//                settingsWindow.setLocationRelativeTo(null);
+//                settingsWindow.setLocation(parent.getX() + 100, parent.getY() -50);
             }
         });
 
