@@ -8,8 +8,7 @@ import java.util.ArrayList;
 
 public class SettingsWindow extends JFrame {
 
-    public SettingsWindow() throws HeadlessException {
-    }
+    public SettingsWindow() throws HeadlessException {}
 
     public SettingsWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font globalFont) {
         setTitle("Settings");
@@ -97,6 +96,9 @@ public class SettingsWindow extends JFrame {
             window.repaint();
             DeveloperDashboard.recursivelyRepaintComponents(window, newFont);
         }
+
+        DeveloperDashboard.repaintCustomButtons();
+
     }
 
 }

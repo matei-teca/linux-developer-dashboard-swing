@@ -2,10 +2,7 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class DeveloperDashboard extends JFrame {
@@ -13,7 +10,7 @@ public class DeveloperDashboard extends JFrame {
     // Set IntelliJ-like colors
     Color darkBackground = new Color(43, 43, 43);
     Color buttonColor = new Color(91, 94, 99);
-    Color buttonHoverColor = new Color(117, 120, 125);
+    static Color buttonHoverColor = new Color(117, 120, 125);
     Color buttonPressedColor = new Color(75, 78, 82);
     Color textColor = new Color(214, 215, 216);
     Color toolbarBorderColor = new Color(60, 63, 65);
@@ -22,6 +19,7 @@ public class DeveloperDashboard extends JFrame {
     private static int globalFontSize = 16;
     private static Font globalFont = new Font("Arial", Font.PLAIN, globalFontSize);
 
+    private static JButton terminalButton; // Declare terminalButton as an instance variable
 
     public static Font getGlobalFont() {
         return globalFont;
@@ -61,7 +59,7 @@ public class DeveloperDashboard extends JFrame {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add some padding
 
         // Create buttons
-        JButton terminalButton = new JButton("");
+        terminalButton = new JButton("");
         JButton resourceButton = new JButton("Resource Monitoring");
         JButton documentationButton = new JButton("Documentation");
         JButton button4 = new JButton("Button 4");
@@ -114,8 +112,6 @@ public class DeveloperDashboard extends JFrame {
             });
 
         }
-
-//        terminalButton.setFont(new Font("Arial", Font.PLAIN, 16));
 
         terminalButton.addActionListener(new ActionListener() {
             @Override
@@ -191,7 +187,6 @@ public class DeveloperDashboard extends JFrame {
             currentButton.addMouseListener(new CustomMouseAdapter());
         }
 
-        // Inside DeveloperDashboard class
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -215,6 +210,7 @@ public class DeveloperDashboard extends JFrame {
 
                 if (getSize().width == 800) {
                     setPreferredSize(new Dimension(500, 300));
+                    toolBar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10)); // Add some padding
                     minimizeMaximizeButton.setText("+");
                     pack();
 
@@ -222,6 +218,7 @@ public class DeveloperDashboard extends JFrame {
 
                 } else {
                     setPreferredSize(new Dimension(800, 500));
+                    toolBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add some padding
                     minimizeMaximizeButton.setText("-");
                     pack();
 
@@ -236,6 +233,9 @@ public class DeveloperDashboard extends JFrame {
                     window.repaint();
                     recursivelyRepaintComponents(window, newFont);
                 }
+
+                repaintCustomButtons();
+
             }
         });
 
@@ -279,6 +279,12 @@ public class DeveloperDashboard extends JFrame {
                 recursivelyRepaintComponents(child, font);
             }
         }
+    }
+
+    public static void repaintCustomButtons(){
+        // Reapply custom UI for terminalButton
+        ImageIcon backgroundImage = new ImageIcon("src/main/resources/images/terminal-icon-b.png");
+        CustomButtonUI.applyCustomUI(terminalButton, backgroundImage.getImage(), buttonHoverColor);
     }
 
     public static void main(String[] args) {

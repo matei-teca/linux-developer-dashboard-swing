@@ -35,6 +35,9 @@ public class ScreenReaderWindow extends JFrame {
 
         /// for speakText
         JTextArea textArea = new JTextArea();
+        textArea.setPreferredSize(new Dimension(200, 100));
+        textArea.setLineWrap(true);
+        textArea.setMargin(new Insets(10, 10, 10, 10));
         JButton speakButton = new JButton("Speak");
 
         speakButton.addActionListener(new ActionListener() {
