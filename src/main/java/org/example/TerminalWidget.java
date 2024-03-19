@@ -14,9 +14,9 @@ import java.io.InputStreamReader;
 public class TerminalWidget extends JFrame {
 
     // used Window Builder
-    public TerminalWidget() {
-        getContentPane().setBackground(new Color(60, 63, 65));
-    }
+    public TerminalWidget() {}
+
+    Color secondaryBgColor = new Color(60, 63, 65);
 
     private JLabel welcomeLabel;
     private JTextArea terminalTextArea;
@@ -72,7 +72,7 @@ public class TerminalWidget extends JFrame {
 
         /// Create panel to hold command input field and execute button
         JPanel inputPanel = new JPanel();
-        inputPanel.setBackground(new Color(60, 63, 65));
+        inputPanel.setBackground(secondaryBgColor);
         JTextField commandInputField = new JTextField(15);
         JButton executeButton = new JButton("Execute");
 
@@ -103,9 +103,14 @@ public class TerminalWidget extends JFrame {
         inputPanel.add(commandInputField);
         inputPanel.add(executeButton);
 
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(secondaryBgColor);
+        topPanel.add(welcomeLabel, BorderLayout.CENTER);
+        topPanel.add(minimizeMaximizeButton(), BorderLayout.WEST);
+
         // Add components to content pane
         getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(welcomeLabel, BorderLayout.NORTH);
+        getContentPane().add(topPanel, BorderLayout.NORTH);
         getContentPane().add(terminalScrollPane, BorderLayout.CENTER);
         getContentPane().add(inputPanel, BorderLayout.SOUTH);
 
@@ -260,4 +265,38 @@ public class TerminalWidget extends JFrame {
             JOptionPane.showMessageDialog(null, "Text not found!");
         }
     }
+
+    private JButton minimizeMaximizeButton(){
+
+        JButton minimizeMaximizeButton = new JButton("-");
+        minimizeMaximizeButton.setFocusPainted(false);
+        minimizeMaximizeButton.setBorderPainted(false);
+        minimizeMaximizeButton.addMouseListener(new DeveloperDashboard.CustomMouseAdapter());
+        minimizeMaximizeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (getSize().width == 800) {
+                    setSize(600, 400);
+                    minimizeMaximizeButton.setText("+");
+                } else {
+                    setSize(800, 600);
+                    minimizeMaximizeButton.setText("-");
+                }
+
+                // Update UI for already displayed components
+                for (Window window : Window.getWindows()) {
+                    SwingUtilities.updateComponentTreeUI(window);
+                    window.repaint();
+                    DeveloperDashboard.recursivelyRepaintComponents(window, getFont());
+                }
+
+                DeveloperDashboard.repaintCustomButtons();
+
+            }
+        });
+
+        return minimizeMaximizeButton;
+    }
+
 }
