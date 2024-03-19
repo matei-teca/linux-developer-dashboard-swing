@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.cscreen_reader.CScreenReaderWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AccessibilitySettingsWindow extends JFrame {
+
+    private CScreenReaderWindow screenReader;
 
     public AccessibilitySettingsWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font globalFont) {
         setTitle("Accessibility Settings");
@@ -121,10 +125,14 @@ public class AccessibilitySettingsWindow extends JFrame {
             }
         });
 
+        screenReader = new CScreenReaderWindow();
+
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement action for Setting 3
+                CScreenReaderWindow cScreenReaderWindow = new CScreenReaderWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
+                cScreenReaderWindow.setVisible(true);
+
             }
         });
 
