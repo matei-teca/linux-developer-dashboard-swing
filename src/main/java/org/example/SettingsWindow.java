@@ -95,23 +95,7 @@ public class SettingsWindow extends JFrame {
         for (Window window : Window.getWindows()) {
             SwingUtilities.updateComponentTreeUI(window);
             window.repaint();
-            recursivelyRepaintComponents(window, newFont);
-        }
-    }
-
-    private void recursivelyRepaintComponents(Component component, Font font) {
-        if (component instanceof JComponent) {
-            JComponent jComponent = (JComponent) component;
-            jComponent.setFont(font);
-            jComponent.repaint();
-        }
-
-        if (component instanceof Container) {
-            Container container = (Container) component;
-            Component[] components = container.getComponents();
-            for (Component child : components) {
-                recursivelyRepaintComponents(child, font);
-            }
+            DeveloperDashboard.recursivelyRepaintComponents(window, newFont);
         }
     }
 

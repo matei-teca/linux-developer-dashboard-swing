@@ -19,7 +19,10 @@ public class DeveloperDashboard extends JFrame {
     Color toolbarBorderColor = new Color(60, 63, 65);
     Color toolbarBackground = new Color(60, 63, 65);
 
-    private static Font globalFont = new Font("Arial", Font.PLAIN, 16);
+    private static int globalFontSize = 16;
+    private static Font globalFont = new Font("Arial", Font.PLAIN, globalFontSize);
+
+
     public static Font getGlobalFont() {
         return globalFont;
     }
@@ -28,11 +31,18 @@ public class DeveloperDashboard extends JFrame {
         DeveloperDashboard.globalFont = globalFont;
     }
 
+    public static int getGlobalFontSize() {
+        return globalFontSize;
+    }
+    public static void setGlobalFontSize(int newSize) {
+        globalFontSize = newSize;
+    }
+
 
     public DeveloperDashboard() {
         setTitle("Developer Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(800, 500));
 
         UIManager.put("Panel.background", darkBackground);
         UIManager.put("Button.background", buttonColor);
@@ -42,8 +52,16 @@ public class DeveloperDashboard extends JFrame {
         UIManager.put("ToolBar.background", darkBackground);
         UIManager.put("ToolBar.border", BorderFactory.createMatteBorder(0, 0, 1, 0, toolbarBorderColor));
 
+        // Set layout
+        getContentPane().setLayout(new BorderLayout());
+
+        // Create panel to hold buttons with GridLayout
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 10, 10));
+        buttonPanel.setBackground(darkBackground); // Set background color
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add some padding
+
         // Create buttons
-        JButton terminalButton = new JButton("Terminal");
+        JButton terminalButton = new JButton("");
         JButton resourceButton = new JButton("Resource Monitoring");
         JButton documentationButton = new JButton("Documentation");
         JButton button4 = new JButton("Button 4");
@@ -53,16 +71,17 @@ public class DeveloperDashboard extends JFrame {
         JButton button8 = new JButton("Button 8");
 
         ArrayList<JButton> mainButtons = new ArrayList<>();
-        mainButtons.add(terminalButton);
-        mainButtons.add(resourceButton);
+
         mainButtons.add(documentationButton);
+        mainButtons.add(terminalButton);
         mainButtons.add(button4);
+        mainButtons.add(resourceButton);
         mainButtons.add(button5);
-        mainButtons.add(button6);
         mainButtons.add(button7);
+        mainButtons.add(button6);
         mainButtons.add(button8);
 
-        for(int i = 0; i < mainButtons.size(); i++){
+        for (int i = 0; i < mainButtons.size(); i++) {
 
             JButton currentBttn = mainButtons.get(i);
             currentBttn.setOpaque(true);
@@ -75,6 +94,7 @@ public class DeveloperDashboard extends JFrame {
             currentBttn.setBackground(darkBackground);
             currentBttn.setForeground(textColor);
             currentBttn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+            buttonPanel.add(currentBttn);
             currentBttn.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
                     currentBttn.setBackground(buttonHoverColor);
@@ -94,6 +114,8 @@ public class DeveloperDashboard extends JFrame {
             });
 
         }
+
+//        terminalButton.setFont(new Font("Arial", Font.PLAIN, 16));
 
         terminalButton.addActionListener(new ActionListener() {
             @Override
@@ -119,8 +141,10 @@ public class DeveloperDashboard extends JFrame {
         Icon settingsIcon = new ImageIcon("src/main/resources/images/Screenshot 2024-03-14 at 19.23.03.png");
 
         JButton settingsButton = new JButton(settingsIcon);
-        settingsButton.setMaximumSize(new Dimension(31, 32));
+        // settingsButton.setMaximumSize(new Dimension(31, 32));
+        // settingsButton.setBackground(toolbarBackground);
         settingsButton.setToolTipText("Settings");
+
         // Add filler to create padding
         Component rigidArea = Box.createRigidArea(new Dimension(20, 0));
 
@@ -134,7 +158,7 @@ public class DeveloperDashboard extends JFrame {
         toolbarButtons.add(action2);
         toolbarButtons.add(action3);
 
-        for(int i = 0; i < toolbarButtons.size(); i++) {
+        for (int i = 0; i < toolbarButtons.size(); i++) {
 
             JButton currentButton = toolbarButtons.get(i);
 
@@ -142,7 +166,7 @@ public class DeveloperDashboard extends JFrame {
             currentButton.setOpaque(true);
             currentButton.setFont(globalFont);
             toolBar.add(currentButton);
-            if(i == 0){
+            if (i == 0) {
                 toolBar.add(rigidArea);
             }
 
@@ -163,6 +187,8 @@ public class DeveloperDashboard extends JFrame {
                     currentButton.setBackground(buttonHoverColor);
                 }
             });
+
+            currentButton.addMouseListener(new CustomMouseAdapter());
         }
 
         // Inside DeveloperDashboard class
@@ -174,52 +200,85 @@ public class DeveloperDashboard extends JFrame {
             }
         });
 
-        // Inside DeveloperDashboard class
-        settingsButton.addMouseListener(new MouseAdapter() {
+        // Minimize/Maximize button
+        JButton minimizeMaximizeButton = new JButton("-");
+        minimizeMaximizeButton.setForeground(textColor);
+        minimizeMaximizeButton.setBackground(toolbarBackground);
+        minimizeMaximizeButton.setFocusPainted(false);
+        minimizeMaximizeButton.setBorderPainted(false);
+        minimizeMaximizeButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                settingsButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            }
+            public void mouseClicked(MouseEvent e) {
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                settingsButton.setCursor(Cursor.getDefaultCursor());
+                Font globalFont = DeveloperDashboard.getGlobalFont();
+                Font newFont;
+
+                if (getSize().width == 800) {
+                    setPreferredSize(new Dimension(500, 300));
+                    minimizeMaximizeButton.setText("+");
+                    pack();
+
+                    newFont = globalFont.deriveFont(Font.PLAIN, 14);
+
+                } else {
+                    setPreferredSize(new Dimension(800, 500));
+                    minimizeMaximizeButton.setText("-");
+                    pack();
+
+                    newFont = globalFont.deriveFont(Font.PLAIN, 16);
+                }
+
+                DeveloperDashboard.setGlobalFont(newFont);
+
+                // Update UI for already displayed components
+                for (Window window : Window.getWindows()) {
+                    SwingUtilities.updateComponentTreeUI(window);
+                    window.repaint();
+                    recursivelyRepaintComponents(window, newFont);
+                }
             }
         });
 
-        // Set layout
-        getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(toolBar, BorderLayout.NORTH);
+        minimizeMaximizeButton.addMouseListener(new CustomMouseAdapter());
 
-        // Create panel to hold buttons with GridLayout
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 10, 10));
-        buttonPanel.setBackground(darkBackground); // Set background color
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add some padding
-
-        // Add buttons with IntelliJ globalFont
-        buttonPanel.add(documentationButton);
-        buttonPanel.add(terminalButton);
-        buttonPanel.add(button4);
-        buttonPanel.add(resourceButton); // Adding Resource Monitoring button as the 3rd button
-        buttonPanel.add(button5);
-        buttonPanel.add(button7);
-        buttonPanel.add(button6);
-        buttonPanel.add(button8);
+        // Add minimize/maximize button to toolbar
+        toolBar.add(Box.createHorizontalGlue());
+        toolBar.add(minimizeMaximizeButton);
 
         // Add grid button panel below
         getContentPane().add(buttonPanel, BorderLayout.CENTER);
-
-        // Add label below the Terminal button
-//        JLabel terminalLabel = new JLabel("Terminal");
-//        terminalLabel.setForeground(textColor);
-//        terminalLabel.setHorizontalAlignment(SwingConstants.CENTER);
-//        JPanel terminalLabelPanel = new JPanel(new BorderLayout());
-//        terminalLabelPanel.setOpaque(false); // Make panel transparent
-//        terminalLabelPanel.add(terminalLabel, BorderLayout.SOUTH);
-//        getContentPane().add(terminalLabelPanel, BorderLayout.SOUTH);
+        getContentPane().add(toolBar, BorderLayout.NORTH);
 
         pack();
         setLocationRelativeTo(null); // Center the frame
+    }
+
+    public static class CustomMouseAdapter extends MouseAdapter {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ((javax.swing.JButton) e.getSource()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            ((javax.swing.JButton) e.getSource()).setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
+    public static void recursivelyRepaintComponents(Component component, Font font) {
+        if (component instanceof JComponent) {
+            JComponent jComponent = (JComponent) component;
+            jComponent.setFont(font);
+            jComponent.repaint();
+        }
+
+        if (component instanceof Container) {
+            Container container = (Container) component;
+            Component[] components = container.getComponents();
+            for (Component child : components) {
+                recursivelyRepaintComponents(child, font);
+            }
+        }
     }
 
     public static void main(String[] args) {
