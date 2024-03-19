@@ -189,7 +189,7 @@ public class DeveloperDashboard extends JFrame {
                 });
             }
 
-            currentButton.addMouseListener(new CustomMouseAdapter());
+            currentButton.addMouseListener(new CustomCursorAdapter());
         }
 
         settingsButton.addActionListener(new ActionListener() {
@@ -253,7 +253,7 @@ public class DeveloperDashboard extends JFrame {
             }
         });
 
-        minimizeMaximizeButton.addMouseListener(new CustomMouseAdapter());
+        minimizeMaximizeButton.addMouseListener(new CustomCursorAdapter());
 
         // Add minimize/maximize button to toolbar
         toolBar.add(Box.createHorizontalGlue());
@@ -267,7 +267,7 @@ public class DeveloperDashboard extends JFrame {
 //        setLocationRelativeTo(null); // Center the frame
     }
 
-    public static class CustomMouseAdapter extends MouseAdapter {
+    public static class CustomCursorAdapter extends MouseAdapter {
         @Override
         public void mouseEntered(MouseEvent e) {
             ((javax.swing.JButton) e.getSource()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

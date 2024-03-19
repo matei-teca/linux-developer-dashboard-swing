@@ -271,7 +271,7 @@ public class TerminalWidget extends JFrame {
         JButton minimizeMaximizeButton = new JButton("-");
         minimizeMaximizeButton.setFocusPainted(false);
         minimizeMaximizeButton.setBorderPainted(false);
-        minimizeMaximizeButton.addMouseListener(new DeveloperDashboard.CustomMouseAdapter());
+        minimizeMaximizeButton.addMouseListener(new DeveloperDashboard.CustomCursorAdapter());
         minimizeMaximizeButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

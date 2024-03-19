@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class ScreenReaderWindow extends JFrame {
-    public ScreenReaderWindow(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font font) {
+public class TestingAccessibility extends JFrame {
+    public TestingAccessibility(Color darkBackground, Color buttonHoverColor, Color buttonPressedColor, Color textColor, Font font) {
         setTitle("Screen Reader Settings");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(400, 300));

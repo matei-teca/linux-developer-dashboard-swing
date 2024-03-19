@@ -112,7 +112,7 @@ public class AccessibilitySettingsWindow extends JFrame {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ScreenReaderWindow settingsWindow = new ScreenReaderWindow(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
+                TestingAccessibility settingsWindow = new TestingAccessibility(darkBackground, buttonHoverColor, buttonPressedColor, textColor, globalFont);
                 settingsWindow.setVisible(true);
 
 //                Component parent = AccessibilitySettingsWindow.this;
