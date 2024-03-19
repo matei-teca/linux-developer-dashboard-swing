@@ -1,4 +1,4 @@
-package org.example.cscreen_reader;
+package org.example.accessibility.cscreen_reader;
 
 import javax.swing.*;
 import java.awt.*;

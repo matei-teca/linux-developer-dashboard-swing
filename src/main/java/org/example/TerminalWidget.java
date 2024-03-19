@@ -17,6 +17,15 @@ public class TerminalWidget extends JFrame {
     public TerminalWidget() {}
 
     Color secondaryBgColor = new Color(60, 63, 65);
+    private static Font terminalFont = new Font("Monospaced", Font.PLAIN, 12);
+
+    public static Font getTerminalFont() {
+        return terminalFont;
+    }
+
+    public static void setTerminalFont(Font terminalFont) {
+        TerminalWidget.terminalFont = terminalFont;
+    }
 
     private JLabel welcomeLabel;
     private JTextArea terminalTextArea;
@@ -54,14 +63,14 @@ public class TerminalWidget extends JFrame {
 
         // Create and customize welcome label
         welcomeLabel = new JLabel();
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        welcomeLabel.setFont(DeveloperDashboard.getGlobalFont());
         welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Create terminal text area
         terminalTextArea = new JTextArea();
         terminalTextArea.setBackground(new Color(44, 44, 44));
         terminalTextArea.setForeground(Color.white); // Set text color to white
-        terminalTextArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        terminalTextArea.setFont(terminalFont);
         terminalTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
         terminalTextArea.setEditable(false);
         terminalScrollPane = new JScrollPane(terminalTextArea);
@@ -277,7 +286,11 @@ public class TerminalWidget extends JFrame {
             public void mouseClicked(MouseEvent e) {
 
                 if (getSize().width == 800) {
-                    setSize(600, 400);
+                    if(DeveloperDashboard.getIsAccessibilityActivated()){
+                        setSize(700, 500);
+                    } else {
+                        setSize(600, 400);
+                    }
                     minimizeMaximizeButton.setText("+");
                 } else {
                     setSize(800, 600);
@@ -288,7 +301,7 @@ public class TerminalWidget extends JFrame {
                 for (Window window : Window.getWindows()) {
                     SwingUtilities.updateComponentTreeUI(window);
                     window.repaint();
-                    DeveloperDashboard.recursivelyRepaintComponents(window, getFont());
+                    DeveloperDashboard.recursivelyRepaintComponents(window, DeveloperDashboard.getGlobalFont());
                 }
 
                 DeveloperDashboard.repaintCustomButtons();

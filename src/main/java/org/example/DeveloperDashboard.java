@@ -16,25 +16,38 @@ public class DeveloperDashboard extends JFrame {
     Color toolbarBorderColor = new Color(60, 63, 65);
     Color toolbarBackground = new Color(60, 63, 65);
 
+    private static boolean isAccessibilityActivated = false;
     private static int globalFontSize = 16;
     private static Font globalFont = new Font("Arial", Font.PLAIN, globalFontSize);
 
-    private static JButton terminalButton; // Declare terminalButton as an instance variable
+    private static JButton terminalButton;
+
+    public static boolean getIsAccessibilityActivated() {
+        return isAccessibilityActivated;
+    }
+
+    public static void setIsAccessibilityActivated(boolean isAccessibilityActivated) {
+        DeveloperDashboard.isAccessibilityActivated = isAccessibilityActivated;
+    }
 
     public static Font getGlobalFont() {
         return globalFont;
     }
 
     public static void setGlobalFont(Font globalFont) {
-        DeveloperDashboard.globalFont = globalFont;
+
+        if(!isAccessibilityActivated){
+            DeveloperDashboard.globalFont = globalFont;
+        }
+
     }
 
-    public static int getGlobalFontSize() {
-        return globalFontSize;
-    }
-    public static void setGlobalFontSize(int newSize) {
-        globalFontSize = newSize;
-    }
+//    public static int getGlobalFontSize() {
+//        return globalFontSize;
+//    }
+//    public static void setGlobalFontSize(int newSize) {
+//        globalFontSize = newSize;
+//    }
 
 
     public DeveloperDashboard() {
@@ -239,17 +252,20 @@ public class DeveloperDashboard extends JFrame {
                     settingsButton.setIcon(resizedSettingsIcon);
                 }
 
-                DeveloperDashboard.setGlobalFont(newFont);
+                if(isAccessibilityActivated){
+                    newFont = globalFont;
+                } else {
+                    DeveloperDashboard.setGlobalFont(newFont);
 
-                // Update UI for already displayed components
-                for (Window window : Window.getWindows()) {
-                    SwingUtilities.updateComponentTreeUI(window);
-                    window.repaint();
-                    recursivelyRepaintComponents(window, newFont);
+                    // Update UI for already displayed components
+                    for (Window window : Window.getWindows()) {
+                        SwingUtilities.updateComponentTreeUI(window);
+                        window.repaint();
+                        recursivelyRepaintComponents(window, newFont);
+                    }
+
+                    repaintCustomButtons();
                 }
-
-                repaintCustomButtons();
-
             }
         });
 

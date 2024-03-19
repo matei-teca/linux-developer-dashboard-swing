@@ -88,7 +88,11 @@ public class SettingsWindow extends JFrame {
     public void changeTextSize(int newSize) {
         Font globalFont = DeveloperDashboard.getGlobalFont();
         Font newFont = globalFont.deriveFont(Font.PLAIN, newSize);
+
+        DeveloperDashboard.setIsAccessibilityActivated(false);
         DeveloperDashboard.setGlobalFont(newFont);
+        TerminalWidget.setTerminalFont(new Font("Monospaced", Font.PLAIN, newFont.getSize()));
+        DeveloperDashboard.setIsAccessibilityActivated(true);
 
         // Update UI for already displayed components
         for (Window window : Window.getWindows()) {
